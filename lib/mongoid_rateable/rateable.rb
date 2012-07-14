@@ -9,11 +9,7 @@ module Mongoid
 
 			embeds_many :rating_marks, :as => :rateable
 
-			index(
-				[
-					["rating_marks.rater_id", Mongo::ASCENDING],
-					["rating_marks.rater_class", Mongo::ASCENDING]
-				]
+			index({"rating_marks.rater_id" => 1, "rating_marks.rater_class" => 1}
 			)
 
 			scope :unrated, where(:rating.exists => false)
