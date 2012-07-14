@@ -80,6 +80,13 @@ module Mongoid
 
 		def unrate_without_rating_update(rater)
 			rmark = self.rating_marks.where(:rater_id => rater.id, :rater_class => rater.class.to_s).first
+      if rmark
+        weight = (rmark.weight ||= 1)
+        total_mark = rmark.mark.to_i*weight.to_i
+        self.rates -= total_mark
+        self.weighted_rate_count -= weight
+        rmark.delete
+      end
 		end
 
 		def update_rating
